@@ -94,7 +94,7 @@ int cVideoBufferSimple::Read(uint8_t **buf, unsigned int size)
 
 //-----------------------------------------------------------------------------
 
-#define MARGIN 4000
+#define MARGIN 40000
 
 class cVideoBufferRAM : public cVideoBuffer
 {
@@ -142,7 +142,7 @@ cVideoBufferRAM::~cVideoBufferRAM()
 
 bool cVideoBufferRAM::Init()
 {
-  m_BufferSize = TimeshiftBufferSize*100*1000*1000;
+  m_BufferSize = (size_t)TimeshiftBufferSize*100*1000*1000;
   INFOLOG("allocated timeshift buffer with size: %ld", m_BufferSize);
   m_Buffer = (uint8_t*)malloc(m_BufferSize + m_Margin);
   m_BufferPtr = m_Buffer + m_Margin;

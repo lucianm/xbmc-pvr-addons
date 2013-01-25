@@ -138,7 +138,7 @@ int cParser::ParsePESHeader(uint8_t *buf, size_t len)
       m_ConfirmCount = 0;
 
     m_curPTS = pts;
-    if (m_Wrap && !(bit32and31 >> 1))
+    if (m_Wrap && !(bit32and31))
     {
       m_curPTS |= 1LL<<33;
     }
@@ -163,7 +163,7 @@ int cParser::ParsePESHeader(uint8_t *buf, size_t len)
     dts |=  (int64_t)( buf[17]          <<  7 );
     dts |=  (int64_t)((buf[18] & 0xFE)  >>  1 );
     m_curDTS = dts;
-    if (m_Wrap && !(m_curPTS & (1LL<<32)))
+    if (m_Wrap && !(m_curPTS >> 31))
     {
       m_curPTS |= 1LL<<33;
     }
