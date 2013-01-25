@@ -163,13 +163,13 @@ int cParser::ParsePESHeader(uint8_t *buf, size_t len)
     dts |=  (int64_t)( buf[17]          <<  7 );
     dts |=  (int64_t)((buf[18] & 0xFE)  >>  1 );
     m_curDTS = dts;
-    if (m_Wrap && !(m_curPTS >> 31))
+    if (m_Wrap && !(m_curDTS >> 31))
     {
-      m_curPTS |= 1LL<<33;
+      m_curDTS |= 1LL<<33;
     }
     if (m_NoOfWraps)
     {
-      m_curPTS |= 1LL<<(32+m_NoOfWraps);
+      m_curDTS |= 1LL<<(32+m_NoOfWraps);
     }
   }
   else
