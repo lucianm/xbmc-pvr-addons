@@ -117,7 +117,7 @@ int cParser::ParsePESHeader(uint8_t *buf, size_t len)
     pts |= ((int64_t)(buf[13] & 0xFE)) >>  1 ;
 
     int64_t bit32and31 = pts >> 31;
-    if ((bit32and31 >> 1) && !m_Wrap)
+    if ((bit32and31 == 3) && !m_Wrap)
     {
       m_ConfirmCount++;
       if (m_ConfirmCount >= 2)
@@ -140,11 +140,11 @@ int cParser::ParsePESHeader(uint8_t *buf, size_t len)
     m_curPTS = pts;
     if (m_Wrap && !(bit32and31))
     {
-      m_curPTS |= 1LL<<33;
+      m_curPTS += 1LL<<33;
     }
     if (m_NoOfWraps)
     {
-      m_curPTS |= 1LL<<(32+m_NoOfWraps);
+      m_curPTS += 1LL<<(32+m_NoOfWraps);
     }
   }
   else
@@ -165,11 +165,11 @@ int cParser::ParsePESHeader(uint8_t *buf, size_t len)
     m_curDTS = dts;
     if (m_Wrap && !(m_curDTS >> 31))
     {
-      m_curDTS |= 1LL<<33;
+      m_curDTS += 1LL<<33;
     }
     if (m_NoOfWraps)
     {
-      m_curDTS |= 1LL<<(32+m_NoOfWraps);
+      m_curDTS += 1LL<<(32+m_NoOfWraps);
     }
   }
   else
